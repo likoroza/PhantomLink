@@ -1,5 +1,6 @@
 import keyboard
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from time import sleep
 
 class ProofOfConceptServer(BaseHTTPRequestHandler):
     def do_POST(self):
@@ -8,7 +9,12 @@ class ProofOfConceptServer(BaseHTTPRequestHandler):
             data = self.rfile.read(content_length).decode()
 
             if data == "super":
-                keyboard.press('win')
+                keyboard.press_and_release('windows')
+                keyboard.write("מנהל המשימות")
+                sleep(0.5)
+                keyboard.press_and_release('enter')
+
+
             self.send_response(200)
             self.send_header("Content-Type", "text/plain")
             self.end_headers()
