@@ -1,7 +1,12 @@
 import keyboard
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-def try_run_from_duckyscript_command(duckyscript_command):
+def try_run_from_duckyscript_command(duckyscript_command: str):
+    if duckyscript_command.startswith("REM") or duckyscript_command.isspace() or not duckyscript_command:
+        return True
+    
+    duckyscript_command = duckyscript_command.strip()
+
     return False
 
 class PhantomLinkVictimServer(BaseHTTPRequestHandler):
