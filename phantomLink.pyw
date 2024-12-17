@@ -10,13 +10,18 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 def try_run_from_phantomscript_command(phantomscript_command: str):
     try:
         phantomscript_command = phantomscript_command.strip().lower()
+        splitted_command = phantomscript_command.split(' ')
+        opcode = splitted_command[0]
+        args = splitted_command[1:]
 
-        if phantomscript_command.startswith(("#", '//')) or not phantomscript_command:
+        # !if opcode in ['//', '#'] or not phantomscript_command:
+        # * The code above will not allow comments like this: //fsfd
+        if phantomscript_command.startswith(('//', '#')) or not phantomscript_command:
             return 200
 
-        if phantomscript_command.startswith('press'):
+        elif opcode == 'press':
             try:
-                keyboard.press_and_release(phantomscript_command.removeprefix('press').strip().replace(' ', '+'))
+                keyboard.press_and_release('+'.join(args))
             
             except ValueError:
                 # Value is not a key
