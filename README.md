@@ -27,16 +27,40 @@ TEMP_CODE // This code will throw an error
 Key names are determined by the python `keyboard` module.
 
 ## Press
-You can press a button by using the press command:
+You can press a keyn by using the press command:
 ```
 press w
 ```
-You can press key combos by seperating them with spaces:
+You can press key combos by seperating the key names with spaces:
 ```
 press ctrl shift esc
 ```
 
 > [!IMPORTANT]
-> As this is a software solution, Windows doesn not allow to press key combos like ctrl alt delete. If you can fix it
+> As this is a software solution, Windows doesn't not allow to press key combos like ctrl alt delete. If you can fix it
 > you are welcome to sumbit a PR. Try to find alternatives, e.g. locking the computer from the command line instead of.
 > from the ctrl alt delete menu.
+
+## Hold
+You can hold a key by using the hold command:
+```
+hold w
+```
+You can hold key combos by seperating them with spaces:
+```
+hold ctrl shift esc
+```
+[!NOTE]
+> For some reason using the `hold` command doesn't cause text
+> to repeat like a if you would actually hold a key in a text 
+> field.
+
+## Release
+You can release a key by using the release command:
+```
+release w
+```
+You can press key combos by seperating them with spaces:
+```
+release ctrl shift esc
+```
