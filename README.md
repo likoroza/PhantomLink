@@ -70,3 +70,11 @@ You can add a delay by using the sleep command:
 sleep 1000
 ```
 The program above will sleep (stop) for 1000 milliseconds (1 second).
+## Type
+You can type a string by using the type command:
+```
+type Hello, World!
+```
+> [!NOTE]
+> The code above will write "hello, world!"
+> It doesn't recognize capitilization.

