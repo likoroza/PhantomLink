@@ -64,3 +64,9 @@ You can press key combos by seperating them with spaces:
 ```
 release ctrl shift esc
 ```
+## Sleep
+You can add a delay by using the sleep command:
+```
+sleep 1000
+```
+The program above will sleep (stop) for 1000 milliseconds (1 second).

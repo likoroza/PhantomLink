@@ -38,6 +38,11 @@ def try_run_from_phantomscript_command(phantomscript_command: str) -> tuple:
                 pyautogui.keyUp(key)
 
             return (200, "Successful.")
+        
+        elif opcode == 'sleep':
+            sleep(float(args[0]) / 1000)
+            return (200, "Successful.")
+        
         return (422, f" {opcode}: Invalid opcode / command.")
 
     except Exception as e:
