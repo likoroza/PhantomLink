@@ -20,7 +20,7 @@ To make comments you can either use `#` or `//` at the beginning of the line:
 ```
 For now you are not allowed to use comments in the middle of a line.
 ```
-TEMP_CODE // This code will throw an error
+press ctrl shift esc // This code will throw an error
 ```
 
 ## Key Names
@@ -50,7 +50,7 @@ You can hold key combos by seperating them with spaces:
 ```
 hold ctrl shift esc
 ```
-[!NOTE]
+> [!NOTE]
 > For some reason using the `hold` command doesn't cause text
 > to repeat like a if you would actually hold a key in a text 
 > field.
