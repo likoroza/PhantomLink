@@ -3,9 +3,12 @@
 <img src="logo.webp" alt="The PhantomLink logo">
 
 A free **wifi** USB Rubber Ducky!
-All you gotta do is run phantomLink.pyw on the victim's pc and connect to them with the special app avaliable at [ios](https://www.youtube.com/watch?v=dQw4w9WgXcQ) and [android](https://www.youtube.com/watch?v=dQw4w9WgXcQ), write your [PhantomScript](phantomScriptLanguageReference) and it just works!
+All you gotta do is run phantomLink.pyw on the victim's PC and connect to them with the special app avaliable at [ios](https://www.youtube.com/watch?v=dQw4w9WgXcQ) and [android](https://www.youtube.com/watch?v=dQw4w9WgXcQ), write your [PhantomScript](phantomScriptLanguageReference) and it just works!
 
-# PhantomScript Language Refernce
+> [!IMPORTANT]
+> Due to secuirity matters which Linux uses, you can only use this against Windows. Mac OS was not tested yet.
+
+# PhantomScript Language Reference
 
 ## Info
 Originally we wanted to use DuckyScript, but because of copyright issues we
@@ -27,7 +30,7 @@ press ctrl shift esc // This code will throw an error
 Key names are determined by the python `keyboard` module.
 
 ## Press
-You can press a keyn by using the press command:
+You can press a key by using the press command:
 ```
 press w
 ```
@@ -78,3 +81,6 @@ type Hello, World!
 > [!NOTE]
 > The code above will write "hello, world!"
 > It doesn't recognize capitilization.
+
+## Example Payloads
+You can browse some [example payloads](payloads.md) here.
