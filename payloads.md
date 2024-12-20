@@ -14,3 +14,4 @@ press alt d
 type tinyurl.com/neu4weu2
 press enter
 ```
+Of course, you can switch the tinyurl link to whatever you would want.
